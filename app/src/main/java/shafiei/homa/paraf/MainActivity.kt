@@ -2,16 +2,17 @@ package shafiei.homa.paraf
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.werb.library.MoreAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import shafiei.homa.paraf.feature.adapter.CategoryViewHolder
 import shafiei.homa.paraf.feature.adapter.ImageSliderAdaptor
 import shafiei.homa.paraf.feature.model.UpcomingResultModel
 import shafiei.homa.paraf.feature.viewModel.MovieEvent
@@ -28,14 +29,38 @@ class MainActivity : AppCompatActivity() {
         getMovieViewModel()
     }
 
+    private val categoryAdapter by lazy {
+        MoreAdapter()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.getUpcoming()
+        viewModel.getCategories()
         setupTopBanner()
         eventObserver()
     }
 
+    private fun eventObserver() {
+        viewModel.movieEvent.observe(this, EventObserver {
+            when(it){
+                is MovieEvent.OnError -> {}
+                is MovieEvent.OnFullLoading -> {}
+                is MovieEvent.OnUpcoming -> {
+                    setBannerSlider(it.result.take(5).toMutableList())
+                }
+                is MovieEvent.OnCategory -> {
+                    if (it.result.isNotEmpty()) {
+                        setCategoryAdapter()
+                        categoryAdapter.loadData(it.result)
+                    }
+                }
+            }
+        })
+    }
+
+    //region banner
     private fun setupTopBanner() {
 
         val centerZoomLayoutManager =
@@ -73,18 +98,6 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun eventObserver() {
-        viewModel.movieEvent.observe(this, EventObserver {
-           when(it){
-               is MovieEvent.OnError -> {}
-               is MovieEvent.OnFullLoading -> {}
-               is MovieEvent.OnUpcoming -> {
-                   setBannerSlider(it.result.take(5).toMutableList())
-               }
-           }
-        })
-    }
-
     private fun setBannerSlider(upcomingList : MutableList<UpcomingResultModel>) {
 
         sliderRecyclerView.adapter = ImageSliderAdaptor(this, upcomingList) { pos ->
@@ -98,4 +111,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    //endregion
+
+    //region Category
+    private fun setCategoryAdapter() {
+        categoryAdapter.removeAllData()
+        rvCategory.adapter = categoryAdapter
+        rvCategory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        categoryAdapter.apply {
+            CategoryViewHolder.register(this)
+            attachTo(rvCategory)
+        }
+    }
+    //endregion
 }

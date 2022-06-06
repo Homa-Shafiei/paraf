@@ -35,6 +35,23 @@ class MovieViewModel(
         }
     }
 
+    fun getCategories() {
+        viewModelScope.launch {
+            _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(true)))
+            val result = repository.getCategories(AppSchema.instance.apiKey)
+            when (result) {
+                is Result.Error -> {
+                    _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(false)))
+                    _onMovieEvent.postValue(Event(MovieEvent.OnError(result.error)))
+                }
+                is Result.Success -> {
+                    _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(false)))
+                    _onMovieEvent.postValue(Event(MovieEvent.OnCategory(result.data.genres)))
+                }
+            }
+        }
+    }
+
 }
 
 fun AppCompatActivity.getMovieViewModel(
