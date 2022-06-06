@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">paraf</string>
+    <string name="common_error_net_time_out">عدم دریافت پاسخ در زمان مشخص</string>
+    <string name="common_error_net">خطا در برقراری ارتباط. لطفا از فعال بودن اینترنت دستگاه خود مطمئن شوید</string>
+    <string name="common_error_do_something_fail">خطای غیرمنتظره</string>
+    <string name="common_error_server_body_null">خطای سرور: body خالی است</string>
+    <string name="common_error_server">خطای سرور</string>
+    <string name="common_error_request">درخواست موردنظر مجاز نمی باشد.</string>
 </resources>

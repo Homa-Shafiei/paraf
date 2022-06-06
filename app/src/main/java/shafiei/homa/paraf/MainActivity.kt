@@ -2,6 +2,8 @@ package shafiei.homa.paraf
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -10,17 +12,28 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import shafiei.homa.paraf.feature.ImageSliderAdaptor
+import shafiei.homa.paraf.feature.adapter.ImageSliderAdaptor
+import shafiei.homa.paraf.feature.model.UpcomingResultModel
+import shafiei.homa.paraf.feature.viewModel.MovieEvent
+import shafiei.homa.paraf.feature.viewModel.MovieViewModel
+import shafiei.homa.paraf.feature.viewModel.getMovieViewModel
 import shafiei.homa.paraf.utils.CenterZoomLayoutManager
+import shafiei.homa.paraf.utils.EventObserver
 import shafiei.homa.paraf.utils.getRecyclerViewLinearSnapHelper
 import shafiei.homa.paraf.utils.withDelay
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MovieViewModel by viewModels {
+        getMovieViewModel()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.getUpcoming()
         setupTopBanner()
-        setBannerSlider()
+        eventObserver()
     }
 
     private fun setupTopBanner() {
@@ -60,14 +73,21 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun setBannerSlider() {
+    private fun eventObserver() {
+        viewModel.movieEvent.observe(this, EventObserver {
+           when(it){
+               is MovieEvent.OnError -> {}
+               is MovieEvent.OnFullLoading -> {}
+               is MovieEvent.OnUpcoming -> {
+                   setBannerSlider(it.result.take(5).toMutableList())
+               }
+           }
+        })
+    }
 
-        val list: MutableList<String> = mutableListOf(
-            "https://image.tmdb.org/t/p/w500/1Ds7xy7ILo8u2WWxdnkJth1jQVT.jpg",
-            "https://image.tmdb.org/t/p/w500/kiH3KPWi7BaRMvdAigcwrUFViHl.jpg",
-            "https://image.tmdb.org/t/p/w500/hcNM0HjfPonIzOVy6LVTDBXSfMq.jpg",
-        )
-        sliderRecyclerView.adapter = ImageSliderAdaptor(this, list) { pos ->
+    private fun setBannerSlider(upcomingList : MutableList<UpcomingResultModel>) {
+
+        sliderRecyclerView.adapter = ImageSliderAdaptor(this, upcomingList) { pos ->
 
         }
 

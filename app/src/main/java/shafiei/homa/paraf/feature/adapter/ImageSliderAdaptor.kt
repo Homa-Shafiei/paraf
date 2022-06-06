@@ -1,4 +1,4 @@
-package shafiei.homa.paraf.feature
+package shafiei.homa.paraf.feature.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,13 +8,15 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.ybq.android.spinkit.SpinKitView
 import kotlinx.android.synthetic.main.slider_item_layout.view.*
+import shafiei.homa.paraf.AppSchema
 import shafiei.homa.paraf.R
+import shafiei.homa.paraf.feature.model.UpcomingResultModel
 import shafiei.homa.paraf.utils.listener
 import shafiei.homa.paraf.utils.setImageLink
 
 class ImageSliderAdaptor(
     private val context: Context,
-    private val listItem: MutableList<String>,
+    private val listItem: MutableList<UpcomingResultModel>,
     private val onItemClick: ((index: Int) -> Unit)? = null
 ) : RecyclerView.Adapter<ImageSliderAdaptor.CustomViewHolder>() {
 
@@ -33,7 +35,7 @@ class ImageSliderAdaptor(
         val item = listItem[position]
 
         item.let {
-            h.imageView.setImageLink(item) {
+            h.imageView.setImageLink(AppSchema.instance.posterPath + item.backdrop_path) {
                 error(R.drawable.empty_picture)
                 listener{
                     h.loading.visibility = View.GONE
