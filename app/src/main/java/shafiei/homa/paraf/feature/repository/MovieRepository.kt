@@ -14,4 +14,6 @@ interface MovieRepository {
 
     suspend fun getPopular(@Query("api_key") apiKey: String): Result<MovieModel>
 
+    suspend fun getTopRated(@Query("api_key") apiKey: String): Result<MovieModel>
+
 }

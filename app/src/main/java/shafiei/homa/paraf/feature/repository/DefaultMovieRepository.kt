@@ -33,4 +33,13 @@ class DefaultMovieRepository : MovieRepository {
                     .getPopular(apiKey)
             })
     }
+
+    override suspend fun getTopRated(apiKey: String): Result<MovieModel> {
+        return ServiceImpl().apiCall(
+            call = {
+                ServiceImpl()
+                    .movieService()
+                    .getTopRated(apiKey)
+            })
+    }
 }

@@ -16,8 +16,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,9 +30,12 @@
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:layoutDirection="ltr"
+                android:orientation="horizontal"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="5dp"
-                tools:ignore="MissingConstraints" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:ignore="MissingConstraints"
+                tools:listitem="@layout/slider_item_layout" />
 
             <shafiei.homa.paraf.utils.CustomTextView
                 android:id="@+id/categories"
@@ -51,7 +54,10 @@
                 android:layout_marginVertical="16dp"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/categories" />
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/categories"
+                tools:listitem="@layout/categories_row" />
 
             <shafiei.homa.paraf.utils.CustomTextView
                 android:id="@+id/popular"
@@ -61,10 +67,10 @@
                 android:text="@string/popular"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/more"
                 app:layout_constraintEnd_toStartOf="@id/more"
-                app:layout_constraintTop_toTopOf="@id/more"
-                app:layout_constraintBottom_toBottomOf="@id/more"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/more" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/more"
@@ -72,21 +78,63 @@
                 android:layout_height="42dp"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
+                android:tint="@color/on_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvCategory"
-                tools:ignore="MissingConstraints"
-                android:tint="@color/on_background"
-                app:srcCompat="@drawable/ic_arrow_right"/>
+                app:srcCompat="@drawable/ic_arrow_right"
+                tools:ignore="MissingConstraints" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPopular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="16dp"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/popular"
+                tools:ignore="MissingConstraints"
+                tools:listitem="@layout/popular_row" />
+
+            <shafiei.homa.paraf.utils.CustomTextView
+                android:id="@+id/topRated"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/top_rated"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/moreTopRated"
+                app:layout_constraintEnd_toStartOf="@id/moreTopRated"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/moreTopRated" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/moreTopRated"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:tint="@color/on_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvPopular"
+                app:srcCompat="@drawable/ic_arrow_right"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTopRated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popular" />
+                app:layout_constraintTop_toBottomOf="@id/topRated"
+                tools:ignore="MissingConstraints"
+                tools:listitem="@layout/top_rated_row" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

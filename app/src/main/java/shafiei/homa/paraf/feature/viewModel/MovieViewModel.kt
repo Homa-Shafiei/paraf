@@ -69,6 +69,23 @@ class MovieViewModel(
         }
     }
 
+    fun getTopRated() {
+        viewModelScope.launch {
+            _onMovieEvent.value = Event(MovieEvent.OnFullLoading(true))
+            val result = repository.getTopRated(AppSchema.instance.apiKey)
+            when (result) {
+                is Result.Error -> {
+                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value= Event(MovieEvent.OnError(result.error))
+                }
+                is Result.Success -> {
+                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value= Event(MovieEvent.OnTopRated(result.data.results))
+                }
+            }
+        }
+    }
+
 }
 
 fun AppCompatActivity.getMovieViewModel(

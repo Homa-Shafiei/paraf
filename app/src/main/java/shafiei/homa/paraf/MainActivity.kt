@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import shafiei.homa.paraf.feature.adapter.CategoryViewHolder
 import shafiei.homa.paraf.feature.adapter.ImageSliderAdaptor
 import shafiei.homa.paraf.feature.adapter.PopularViewHolder
+import shafiei.homa.paraf.feature.adapter.TopRatedViewHolder
 import shafiei.homa.paraf.feature.model.MovieResultModel
 import shafiei.homa.paraf.feature.viewModel.MovieEvent
 import shafiei.homa.paraf.feature.viewModel.MovieViewModel
@@ -38,20 +39,31 @@ class MainActivity : AppCompatActivity() {
         MoreAdapter()
     }
 
+    private val topRatedAdapter by lazy {
+        MoreAdapter()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadData()
+        eventObserver()
+    }
+
+    private fun loadData() {
         viewModel.getUpcoming()
         viewModel.getCategories()
         viewModel.getPopular()
-        eventObserver()
+        viewModel.getTopRated()
     }
 
     private fun eventObserver() {
         viewModel.movieEvent.observe(this, EventObserver {
-            when(it){
-                is MovieEvent.OnError -> {}
-                is MovieEvent.OnFullLoading -> {}
+            when (it) {
+                is MovieEvent.OnError -> {
+                }
+                is MovieEvent.OnFullLoading -> {
+                }
                 is MovieEvent.OnUpcoming -> {
                     setBannerSlider(it.result.take(5).toMutableList())
                 }
@@ -67,13 +79,18 @@ class MainActivity : AppCompatActivity() {
                         popularAdapter.loadData(it.result)
                     }
                 }
-
+                is MovieEvent.OnTopRated -> {
+                    if (it.result.isNotEmpty()) {
+                        setTopRatedAdapter()
+                        topRatedAdapter.loadData(it.result)
+                    }
+                }
             }
         })
     }
 
     //region banner
-    private fun setBannerSlider(upcomingList : MutableList<MovieResultModel>) {
+    private fun setBannerSlider(upcomingList: MutableList<MovieResultModel>) {
 
         val centerZoomLayoutManager =
             CenterZoomLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -140,6 +157,18 @@ class MainActivity : AppCompatActivity() {
         popularAdapter.apply {
             PopularViewHolder.register(this)
             attachTo(rvPopular)
+        }
+    }
+    //endregion
+
+    // region Popular
+    private fun setTopRatedAdapter() {
+        topRatedAdapter.removeAllData()
+        rvTopRated.adapter = topRatedAdapter
+        rvTopRated.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        topRatedAdapter.apply {
+            TopRatedViewHolder.register(this)
+            attachTo(rvTopRated)
         }
     }
     //endregion

@@ -7,6 +7,7 @@ sealed class MovieEvent {
     class OnUpcoming(val result : MutableList<MovieResultModel>) : MovieEvent()
     class OnCategory(val result : MutableList<GenresResultModel.CategoryModel>) : MovieEvent()
     class OnPopular(val result : MutableList<MovieResultModel>) : MovieEvent()
+    class OnTopRated(val result : MutableList<MovieResultModel>) : MovieEvent()
     class OnFullLoading(val isLoading: Boolean) : MovieEvent()
     class OnError(val error: String) : MovieEvent()
 }

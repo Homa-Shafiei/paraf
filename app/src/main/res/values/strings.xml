@@ -8,4 +8,5 @@
     <string name="common_error_request">درخواست موردنظر مجاز نمی باشد.</string>
     <string name="categories">Categories</string>
     <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
 </resources>
