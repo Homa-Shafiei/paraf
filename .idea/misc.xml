@@ -4,14 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable-v24/ic_sample.xml" value="0.2703125" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable-v24/rating_bar.xml" value="0.2703125" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable-v24/scale_transition_card.xml" value="0.2703125" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable-v24/selected_scale.xml" value="0.2703125" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable-v24/shape_circle_secondary.xml" value="0.2703125" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable-v24/unselected_scale.xml" value="0.2703125" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable/ic_arrow_right.xml" value="0.202734375" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable/ic_sample.xml" value="0.2703125" />
-        <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/drawable/rating_bar.xml" value="0.2703125" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/categories_row.xml" value="0.264" />
-        <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/slider_item_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/popular_card.xml" value="0.25416666666666665" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/popular_row.xml" value="0.2" />
+        <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/slider_item_layout.xml" value="0.176" />
         <entry key="..\:/Works/Projects/paraf/app/src/main/res/layout/toolbar_main.xml" value="0.25416666666666665" />
       </map>
     </option>

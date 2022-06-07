@@ -7,4 +7,5 @@
     <string name="common_error_server">خطای سرور</string>
     <string name="common_error_request">درخواست موردنظر مجاز نمی باشد.</string>
     <string name="categories">Categories</string>
+    <string name="popular">Popular</string>
 </resources>

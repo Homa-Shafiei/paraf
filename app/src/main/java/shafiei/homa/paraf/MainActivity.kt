@@ -1,8 +1,8 @@
 package shafiei.homa.paraf
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -14,7 +14,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import shafiei.homa.paraf.feature.adapter.CategoryViewHolder
 import shafiei.homa.paraf.feature.adapter.ImageSliderAdaptor
-import shafiei.homa.paraf.feature.model.UpcomingResultModel
+import shafiei.homa.paraf.feature.adapter.PopularViewHolder
+import shafiei.homa.paraf.feature.model.MovieResultModel
 import shafiei.homa.paraf.feature.viewModel.MovieEvent
 import shafiei.homa.paraf.feature.viewModel.MovieViewModel
 import shafiei.homa.paraf.feature.viewModel.getMovieViewModel
@@ -33,12 +34,16 @@ class MainActivity : AppCompatActivity() {
         MoreAdapter()
     }
 
+    private val popularAdapter by lazy {
+        MoreAdapter()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.getUpcoming()
         viewModel.getCategories()
-        setupTopBanner()
+        viewModel.getPopular()
         eventObserver()
     }
 
@@ -56,12 +61,19 @@ class MainActivity : AppCompatActivity() {
                         categoryAdapter.loadData(it.result)
                     }
                 }
+                is MovieEvent.OnPopular -> {
+                    if (it.result.isNotEmpty()) {
+                        setPopularAdapter()
+                        popularAdapter.loadData(it.result)
+                    }
+                }
+
             }
         })
     }
 
     //region banner
-    private fun setupTopBanner() {
+    private fun setBannerSlider(upcomingList : MutableList<MovieResultModel>) {
 
         val centerZoomLayoutManager =
             CenterZoomLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -74,6 +86,15 @@ class MainActivity : AppCompatActivity() {
         withDelay(0) {
             sliderRecyclerView.smoothScrollToPosition(1)
             withDelay(5) {
+                sliderRecyclerView.smoothScrollToPosition(0)
+            }
+        }
+
+        sliderRecyclerView.adapter = ImageSliderAdaptor(this, upcomingList) { pos -> }
+
+        withDelay(100) {
+            sliderRecyclerView.smoothScrollToPosition(1)
+            withDelay(100) {
                 sliderRecyclerView.smoothScrollToPosition(0)
             }
         }
@@ -97,20 +118,6 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
     }
-
-    private fun setBannerSlider(upcomingList : MutableList<UpcomingResultModel>) {
-
-        sliderRecyclerView.adapter = ImageSliderAdaptor(this, upcomingList) { pos ->
-
-        }
-
-        withDelay(100) {
-            sliderRecyclerView.smoothScrollToPosition(1)
-            withDelay(100) {
-                sliderRecyclerView.smoothScrollToPosition(0)
-            }
-        }
-    }
     //endregion
 
     //region Category
@@ -121,6 +128,18 @@ class MainActivity : AppCompatActivity() {
         categoryAdapter.apply {
             CategoryViewHolder.register(this)
             attachTo(rvCategory)
+        }
+    }
+    //endregion
+
+    //region Popular
+    private fun setPopularAdapter() {
+        popularAdapter.removeAllData()
+        rvPopular.adapter = popularAdapter
+        rvPopular.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        popularAdapter.apply {
+            PopularViewHolder.register(this)
+            attachTo(rvPopular)
         }
     }
     //endregion

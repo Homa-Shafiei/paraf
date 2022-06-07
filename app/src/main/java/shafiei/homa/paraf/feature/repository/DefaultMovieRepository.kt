@@ -1,13 +1,13 @@
 package shafiei.homa.paraf.feature.repository
 
 import shafiei.homa.paraf.feature.model.GenresResultModel
-import shafiei.homa.paraf.feature.model.UpcomingModel
+import shafiei.homa.paraf.feature.model.MovieModel
 import shafiei.homa.paraf.network.Result
 import shafiei.homa.paraf.network.ServiceImpl
 
 class DefaultMovieRepository : MovieRepository {
 
-    override suspend fun getUpcoming(apiKey: String): Result<UpcomingModel> {
+    override suspend fun getUpcoming(apiKey: String): Result<MovieModel> {
         return ServiceImpl().apiCall(
             call = {
                 ServiceImpl()
@@ -22,6 +22,15 @@ class DefaultMovieRepository : MovieRepository {
                 ServiceImpl()
                     .movieService()
                     .getCategories(apiKey)
+            })
+    }
+
+    override suspend fun getPopular(apiKey: String): Result<MovieModel> {
+        return ServiceImpl().apiCall(
+            call = {
+                ServiceImpl()
+                    .movieService()
+                    .getPopular(apiKey)
             })
     }
 }

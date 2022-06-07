@@ -6,9 +6,9 @@ import kotlinx.coroutines.launch
 import shafiei.homa.paraf.AppSchema
 import shafiei.homa.paraf.feature.repository.DefaultMovieRepository
 import shafiei.homa.paraf.feature.repository.MovieRepository
+import shafiei.homa.paraf.network.Result
 import shafiei.homa.paraf.utils.Event
 import shafiei.homa.paraf.utils.defaultSavedStateViewModelFactory
-import shafiei.homa.paraf.network.Result
 
 class MovieViewModel(
     savedState: SavedStateHandle,
@@ -20,16 +20,16 @@ class MovieViewModel(
 
     fun getUpcoming() {
         viewModelScope.launch {
-            _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(true)))
+            _onMovieEvent.value = Event(MovieEvent.OnFullLoading(true))
             val result = repository.getUpcoming(AppSchema.instance.apiKey)
             when (result) {
                 is Result.Error -> {
-                    _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(false)))
-                    _onMovieEvent.postValue(Event(MovieEvent.OnError(result.error)))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnError(result.error))
                 }
                 is Result.Success -> {
-                    _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(false)))
-                    _onMovieEvent.postValue(Event(MovieEvent.OnUpcoming(result.data.results)))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnUpcoming(result.data.results))
                 }
             }
         }
@@ -37,16 +37,33 @@ class MovieViewModel(
 
     fun getCategories() {
         viewModelScope.launch {
-            _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(true)))
+            _onMovieEvent.value = Event(MovieEvent.OnFullLoading(true))
             val result = repository.getCategories(AppSchema.instance.apiKey)
             when (result) {
                 is Result.Error -> {
-                    _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(false)))
-                    _onMovieEvent.postValue(Event(MovieEvent.OnError(result.error)))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnError(result.error))
                 }
                 is Result.Success -> {
-                    _onMovieEvent.postValue(Event(MovieEvent.OnFullLoading(false)))
-                    _onMovieEvent.postValue(Event(MovieEvent.OnCategory(result.data.genres)))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnCategory(result.data.genres))
+                }
+            }
+        }
+    }
+
+    fun getPopular() {
+        viewModelScope.launch {
+            _onMovieEvent.value = Event(MovieEvent.OnFullLoading(true))
+            val result = repository.getPopular(AppSchema.instance.apiKey)
+            when (result) {
+                is Result.Error -> {
+                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value= Event(MovieEvent.OnError(result.error))
+                }
+                is Result.Success -> {
+                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value= Event(MovieEvent.OnPopular(result.data.results))
                 }
             }
         }

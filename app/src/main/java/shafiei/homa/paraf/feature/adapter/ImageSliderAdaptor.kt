@@ -10,13 +10,13 @@ import com.github.ybq.android.spinkit.SpinKitView
 import kotlinx.android.synthetic.main.slider_item_layout.view.*
 import shafiei.homa.paraf.AppSchema
 import shafiei.homa.paraf.R
-import shafiei.homa.paraf.feature.model.UpcomingResultModel
+import shafiei.homa.paraf.feature.model.MovieResultModel
 import shafiei.homa.paraf.utils.listener
 import shafiei.homa.paraf.utils.setImageLink
 
 class ImageSliderAdaptor(
     private val context: Context,
-    private val listItem: MutableList<UpcomingResultModel>,
+    private val listItem: MutableList<MovieResultModel>,
     private val onItemClick: ((index: Int) -> Unit)? = null
 ) : RecyclerView.Adapter<ImageSliderAdaptor.CustomViewHolder>() {
 
