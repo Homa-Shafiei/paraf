@@ -1,6 +1,8 @@
 package shafiei.homa.paraf.feature.viewModel
 
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import shafiei.homa.paraf.AppSchema
@@ -88,7 +90,7 @@ class MovieViewModel(
 
 }
 
-fun AppCompatActivity.getMovieViewModel(
+fun ComponentActivity.getMovieViewModel(
     repository: MovieRepository = DefaultMovieRepository()
 ) = defaultSavedStateViewModelFactory(this) { savedState ->
     MovieViewModel(savedState, repository)
