@@ -2,6 +2,7 @@ package shafiei.homa.paraf.feature.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -31,7 +32,7 @@ import shafiei.homa.paraf.utils.withDelay
 
 class MainFragment : BaseFragment(R.layout.fragment_main), View.OnClickListener {
 
-    private val viewModel by viewModels<MovieViewModel> {
+    private val viewModel by activityViewModels<MovieViewModel> {
         requireActivity().getMovieViewModel()
     }
 
