@@ -12,7 +12,7 @@ interface MovieRepository {
 
     suspend fun getCategories(@Query("api_key") apiKey: String): Result<GenresResultModel>
 
-    suspend fun getPopular(@Query("api_key") apiKey: String): Result<MovieModel>
+    suspend fun getPopular(@Query("api_key") apiKey: String,@Query("page") page: Int): Result<MovieModel>
 
     suspend fun getTopRated(@Query("api_key") apiKey: String): Result<MovieModel>
 

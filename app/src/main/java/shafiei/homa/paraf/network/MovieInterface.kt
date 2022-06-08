@@ -16,7 +16,7 @@ interface MovieInterface {
     suspend fun getCategories(@Query("api_key") apiKey: String): Response<GenresResultModel>
 
     @GET("movie/popular")
-    suspend fun getPopular(@Query("api_key") apiKey: String): Response<MovieModel>
+    suspend fun getPopular(@Query("api_key") apiKey: String,@Query("page") page: Int): Response<MovieModel>
 
     @GET("movie/top_rated")
     suspend fun getTopRated(@Query("api_key") apiKey: String): Response<MovieModel>

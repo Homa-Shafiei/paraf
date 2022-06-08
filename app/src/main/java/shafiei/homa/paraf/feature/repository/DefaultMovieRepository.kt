@@ -25,12 +25,12 @@ class DefaultMovieRepository : MovieRepository {
             })
     }
 
-    override suspend fun getPopular(apiKey: String): Result<MovieModel> {
+    override suspend fun getPopular(apiKey: String, page: Int): Result<MovieModel> {
         return ServiceImpl().apiCall(
             call = {
                 ServiceImpl()
                     .movieService()
-                    .getPopular(apiKey)
+                    .getPopular(apiKey, page)
             })
     }
 

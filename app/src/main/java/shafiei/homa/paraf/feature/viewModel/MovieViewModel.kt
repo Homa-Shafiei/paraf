@@ -18,7 +18,7 @@ class MovieViewModel(
 ) : ViewModel() {
 
     private val _onMovieEvent = MutableLiveData<Event<MovieEvent>>()
-    val movieEvent : LiveData<Event<MovieEvent>> = _onMovieEvent
+    val movieEvent: LiveData<Event<MovieEvent>> = _onMovieEvent
 
     fun getUpcoming() {
         viewModelScope.launch {
@@ -54,18 +54,18 @@ class MovieViewModel(
         }
     }
 
-    fun getPopular() {
+    fun getPopular(page: Int = 1) {
         viewModelScope.launch {
             _onMovieEvent.value = Event(MovieEvent.OnFullLoading(true))
-            val result = repository.getPopular(AppSchema.instance.apiKey)
+            val result = repository.getPopular(AppSchema.instance.apiKey, page)
             when (result) {
                 is Result.Error -> {
-                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
-                    _onMovieEvent.value= Event(MovieEvent.OnError(result.error))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnError(result.error))
                 }
                 is Result.Success -> {
-                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
-                    _onMovieEvent.value= Event(MovieEvent.OnPopular(result.data.results))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnPopular(result.data.results))
                 }
             }
         }
@@ -77,12 +77,12 @@ class MovieViewModel(
             val result = repository.getTopRated(AppSchema.instance.apiKey)
             when (result) {
                 is Result.Error -> {
-                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
-                    _onMovieEvent.value= Event(MovieEvent.OnError(result.error))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnError(result.error))
                 }
                 is Result.Success -> {
-                    _onMovieEvent.value= Event(MovieEvent.OnFullLoading(false))
-                    _onMovieEvent.value= Event(MovieEvent.OnTopRated(result.data.results))
+                    _onMovieEvent.value = Event(MovieEvent.OnFullLoading(false))
+                    _onMovieEvent.value = Event(MovieEvent.OnTopRated(result.data.results))
                 }
             }
         }
