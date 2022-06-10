@@ -2,7 +2,9 @@ package shafiei.homa.paraf.feature.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -72,8 +74,10 @@ class MainFragment : BaseFragment(R.layout.fragment_main), View.OnClickListener 
         viewModel.movieEvent.observe(this, EventObserver {
             when (it) {
                 is MovieEvent.OnError -> {
+                    Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
                 }
                 is MovieEvent.OnFullLoading -> {
+                    loading.isVisible = it.isLoading
                 }
                 is MovieEvent.OnUpcoming -> {
                     setBannerSlider(it.result.take(5).toMutableList())

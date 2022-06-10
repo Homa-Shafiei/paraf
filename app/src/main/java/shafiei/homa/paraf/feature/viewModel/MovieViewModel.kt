@@ -1,8 +1,6 @@
 package shafiei.homa.paraf.feature.viewModel
 
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import shafiei.homa.paraf.AppSchema
@@ -55,8 +53,10 @@ class MovieViewModel(
     }
 
     fun getPopular(page: Int = 1) {
-        viewModelScope.launch {
+        if (page == 1) {
             _onMovieEvent.value = Event(MovieEvent.OnFullLoading(true))
+        }
+        viewModelScope.launch {
             val result = repository.getPopular(AppSchema.instance.apiKey, page)
             when (result) {
                 is Result.Error -> {
