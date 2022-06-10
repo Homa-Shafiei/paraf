@@ -3,6 +3,7 @@ package shafiei.homa.paraf.feature.adapter
 import android.view.View
 import com.werb.library.MoreAdapter
 import com.werb.library.MoreViewHolder
+import com.werb.library.action.MoreClickListener
 import com.werb.library.link.RegisterItem
 import kotlinx.android.synthetic.main.popular_row.*
 import shafiei.homa.paraf.AppSchema
@@ -19,16 +20,22 @@ class PopularViewHolder(values: MutableMap<String, Any>, containerView: View) :
             error(R.drawable.empty_picture)
         }
         rateCount.text = data.vote_average.toString()
+        addOnClickListener(rootView)
     }
 
     companion object {
-        fun register(adapter: MoreAdapter) {
-            adapter.register(
-                RegisterItem(
-                    R.layout.popular_row,
-                    PopularViewHolder::class.java,
-                )
-            )
+        inline fun register(adapter: MoreAdapter, crossinline onItemClick: OnMovieItemClickListener) {
+            adapter.register(RegisterItem(
+                R.layout.popular_row,
+                PopularViewHolder::class.java,
+                object : MoreClickListener() {
+                    override fun onItemClick(view: View, position: Int) {
+                        when (view.id) {
+                            R.id.rootView -> onItemClick(view, adapter.list[position] as MovieResultModel)
+                        }
+                    }
+                },
+            ))
         }
     }
 }

@@ -2,11 +2,15 @@ package shafiei.homa.paraf.feature.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.werb.library.MoreAdapter
+import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_popular.*
+import kotlinx.android.synthetic.main.fragment_popular.rvPopular
 import shafiei.homa.paraf.R
 import shafiei.homa.paraf.feature.adapter.PopularViewHolder
 import shafiei.homa.paraf.feature.viewModel.MovieEvent
@@ -78,7 +82,15 @@ class PopularFragment : BaseFragment(R.layout.fragment_popular) {
             false,
         )
         popularAdapter.apply {
-            PopularViewHolder.register(this)
+            PopularViewHolder.register(this, onItemClick = { view, item ->
+                val bundle = bundleOf(
+                    "MOVIE" to item,
+                )
+                findNavController().navigate(
+                    R.id.action_popularFragment_to_movieDetailsFragment,
+                    args = bundle
+                )
+            })
             attachTo(rvPopular)
         }
     }

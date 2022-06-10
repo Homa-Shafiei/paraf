@@ -14,7 +14,7 @@
             android:id="@+id/action_mainFragment_to_popularFragment"
             app:destination="@id/popularFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_movieDetailsFragment2"
+            android:id="@+id/action_mainFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
 
     </fragment>
@@ -24,7 +24,7 @@
         android:name="shafiei.homa.paraf.feature.fragment.PopularFragment"
         android:label="PopularFragment" >
         <action
-            android:id="@+id/action_popularFragment_to_movieDetailsFragment2"
+            android:id="@+id/action_popularFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
     </fragment>
 

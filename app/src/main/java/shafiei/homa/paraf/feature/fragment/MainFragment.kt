@@ -2,8 +2,8 @@ package shafiei.homa.paraf.feature.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -172,7 +172,15 @@ class MainFragment : BaseFragment(R.layout.fragment_main), View.OnClickListener 
         rvPopular.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         popularAdapter.apply {
-            PopularViewHolder.register(this)
+            PopularViewHolder.register(this, onItemClick = { view, item ->
+                val bundle = bundleOf(
+                    "MOVIE" to item,
+                )
+                findNavController().navigate(
+                    R.id.action_mainFragment_to_movieDetailsFragment,
+                    args = bundle
+                )
+            })
             attachTo(rvPopular)
         }
     }
@@ -185,7 +193,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main), View.OnClickListener 
         rvTopRated.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         topRatedAdapter.apply {
-            TopRatedViewHolder.register(this)
+            TopRatedViewHolder.register(this, onItemClick = { view, item ->
+                findNavController().navigate(R.id.action_mainFragment_to_movieDetailsFragment)
+            })
             attachTo(rvTopRated)
         }
     }
