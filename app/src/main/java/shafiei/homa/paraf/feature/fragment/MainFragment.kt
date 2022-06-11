@@ -74,27 +74,34 @@ class MainFragment : BaseFragment(R.layout.fragment_main), View.OnClickListener 
         viewModel.movieEvent.observe(this, EventObserver {
             when (it) {
                 is MovieEvent.OnError -> {
-                    Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
+                    tvError.text = it.error + ""
+                    error.visibility = View.VISIBLE
+//                    Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
                 }
                 is MovieEvent.OnFullLoading -> {
+                    error.visibility = View.GONE
                     loading.isVisible = it.isLoading
                 }
                 is MovieEvent.OnUpcoming -> {
+                    error.visibility = View.GONE
                     setBannerSlider(it.result.take(5).toMutableList())
                 }
                 is MovieEvent.OnCategory -> {
+                    error.visibility = View.GONE
                     if (it.result.isNotEmpty()) {
                         setCategoryAdapter()
                         categoryAdapter.loadData(it.result)
                     }
                 }
                 is MovieEvent.OnPopular -> {
+                    error.visibility = View.GONE
                     if (it.result.isNotEmpty()) {
                         setPopularAdapter()
                         popularAdapter.loadData(it.result)
                     }
                 }
                 is MovieEvent.OnTopRated -> {
+                    error.visibility = View.GONE
                     if (it.result.isNotEmpty()) {
                         setTopRatedAdapter()
                         topRatedAdapter.loadData(it.result)
